@@ -1,0 +1,27 @@
+-- 2025-12-05
+database : springdb
+username : springuser
+password : mysql
+
+-- DB »ý¼º
+create database springdb;
+
+-- user
+
+use mysql;
+
+create user 'springuser'@'localhost' identified by 'mysql';
+grant all privileges on springdb.* to 'springuser'@'localhost';
+flush privileges;
+
+use springdb;
+
+create table board(
+bno bigint not null auto_increment,
+title varchar(200) not null,
+writer varchar(200) not null,
+content text,
+is_del varchar(5) default 'N',
+reg_date datetime default now(),
+read_count int default 0,
+primary key(bno));
