@@ -8,4 +8,23 @@
   	insert into board(title, writer, content)
   	values (#{title},#{writer},#{content}) 
   </insert>
+  <select id="getList" resultType="com.koreait.www.domain.BoardVO">
+    <!-- select * from board where is_del='N' order by bno desc 
+    limit #{pageStart}, #{qty} -->
+    select a.bno, b.title, b.writer, b.reg_date, b.read_count
+    from (
+    	select bno from board
+    	order by bno desc 
+    	limit #{pageStart}, #{qty}
+    ) a left join board b on a.bno = b.bno
+  </select>
+  <select id="getDetail" resultType="com.koreait.www.domain.BoardVO">
+  	select * from board where bno = #{bno}
+  </select>
+  <update id="update">
+   update board set title=#{title}, content=#{content}, reg_date=now() where bno=#{bno}
+  </update>
+  <update id="remove">
+  update board set is_del='Y' where bno=#{bno}
+  </update>
   </mapper>

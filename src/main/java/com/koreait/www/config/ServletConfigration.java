@@ -11,7 +11,9 @@ import org.springframework.web.servlet.view.JstlView;
 
 @ComponentScan(basePackages = {
 		"com.koreait.www.controller",
-		"com.koreait.www.service" })
+		"com.koreait.www.service",
+		"com.koreait.www.handler"
+})
 @EnableWebMvc
 @Configuration
 public class ServletConfigration implements WebMvcConfigurer {

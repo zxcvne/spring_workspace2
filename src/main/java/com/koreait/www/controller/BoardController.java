@@ -1,11 +1,16 @@
 package com.koreait.www.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.koreait.www.domain.BoardVO;
+import com.koreait.www.domain.PagingVO;
 import com.koreait.www.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,13 +30,38 @@ public class BoardController {
 	@GetMapping("/register")
 	public void register() {}
 	
-	
 	@PostMapping("/insert")
 	public String insert(BoardVO board) {
 		log.info(" >>> insert board {}", board);
 		int isOk = bsv.insert(board);
 		log.info(" >>> register > {}", (isOk > 0)? "OK" : "FAIL");
 		return "redirect:/";
+	}
+	
+	@GetMapping("/list")
+	public String list(Model model, PagingVO pgvo) {
+		log.info(">>> pagingVO {}", pgvo);
+		List<BoardVO> list = bsv.getList(pgvo);
+		model.addAttribute("list", list);
+		return "/board/list";
+	}
+	
+	@GetMapping({"/detail", "/modify"})
+	public void detail(Model model, @RequestParam("bno") long bno) {
+		BoardVO board = bsv.getDetail(bno);
+		model.addAttribute("board", board);
+	}
+	
+	@PostMapping("/update")
+	public String update(BoardVO board) {
+		int isOk = bsv.update(board);
+		return "redirect:/board/list";
+	}
+	
+	@GetMapping("/delete")
+	public String delete(@RequestParam("bno") long bno) {
+		int isOk = bsv.remove(bno);
+		return "redirect:/board/list"; 
 	}
 	
 }
