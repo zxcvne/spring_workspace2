@@ -5,15 +5,27 @@
 <div class="container-sm p-5">
     <!-- search -->
     <div class="container-fluid m-2">
-   	  <form class="d-flex" role="search">
-		<select class="form-select" aria-label="Default select example">
-		  <option selected>Open this select menu</option>
-		  <option value="1">One</option>
-		  <option value="2">Two</option>
-		  <option value="3">Three</option>
+   	  <form class="d-flex" role="search" action="/board/list" method="get">
+		<select class="form-select" name="type" aria-label="Default select example">
+		  <option ${ph.pgvo.type eq null ? 'selected' : ''} >Choose...</option>
+		  <option ${ph.pgvo.type eq 't' ? 'selected' : ''}>title</option>
+		  <option ${ph.pgvo.type eq 'w' ? 'selected' : ''}>writer</option>
+		  <option ${ph.pgvo.type eq 'c' ? 'selected' : ''}>content</option>
+		  <option ${ph.pgvo.type eq 'tc' ? 'selected' : ''}>title&content</option>
+		  <option ${ph.pgvo.type eq 'wc' ? 'selected' : ''}>writer&content</option>
+		  <option ${ph.pgvo.type eq 'tw' ? 'selected' : ''}>title&writer</option>
+		  <option ${ph.pgvo.type eq 'twc' ? 'selected' : ''}>all</option>
 		</select>
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <input class="form-control me-2" type="search" name="keyword" value="${ph.pgvo.keyword}" placeholder="Search" aria-label="Search"/>
+        <input type="hidden" name="pageNo" value="1">
+        <input type="hidden" name="qty" value="${ph.pgvo.qty}">
+		<button type="submit" class="btn btn-success position-relative">
+		  search
+		  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+		    ${ph.totalCount}
+		    <span class="visually-hidden">unread messages</span>
+		  </span>
+		</button>
       </form>
   	</div>
 	<table class="table table-hover">
@@ -39,15 +51,17 @@
   		</tbody>
 	</table>
 	<nav aria-label="Page navigation example">
-  <ul class="pagination">
-    <li class="page-item">
-      <a class="page-link" href="#" aria-label="Previous">
+  <ul class="pagination justify-content-center">
+    <li class="page-item ${ph.prev eq false ? 'disabled' : ''}">
+      <a class="page-link" href="/board/list?pageNo=${ph.startPage-1}&qty=${ph.pgvo.qty}&type=${ph.pgvo.type}&keyword=${ph.pgvo.keyword}" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#" aria-label="Next">
+    <c:forEach begin="${ph.startPage}" end="${ph.endPage}" var="i">
+    <li class="page-item"><a class="page-link" href="/board/list?pageNo=${i}&qty=${ph.pgvo.qty}&type=${ph.pgvo.type}&keyword=${ph.pgvo.keyword}">${i}</a></li>
+    </c:forEach>
+    <li class="page-item ${ph.next eq false ? 'disabled' : ''}">
+      <a class="page-link" href="/board/list?pageNo=${ph.endPage+1}&qty=${ph.pgvo.qty}&type=${ph.pgvo.type}&keyword=${ph.pgvo.keyword}" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
     </li>

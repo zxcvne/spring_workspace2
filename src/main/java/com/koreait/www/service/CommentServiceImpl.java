@@ -1,0 +1,16 @@
+package com.koreait.www.service;
+
+import org.springframework.stereotype.Service;
+
+import com.koreait.www.repository.CommentDAO;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@RequiredArgsConstructor
+@Slf4j
+@Service
+public class CommentServiceImpl implements CommentService{
+	
+	private final CommentDAO cdao;
+}

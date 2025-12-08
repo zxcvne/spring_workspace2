@@ -32,9 +32,7 @@
 		</div>
 		<div class="mb-3">
 		  <label for="c" class="form-label">Content</label>
-		  <textarea class="form-control" id="c" name="content" rows="3">
-		  ${board.content}
-		  </textarea>
+		  <textarea class="form-control" id="c" name="content" rows="3">${board.content}</textarea>
 		</div>
 		<button class="btn btn-success">update</button>
 		<a href="/board/list"><button type="button" class="btn btn-primary">list</button></a>

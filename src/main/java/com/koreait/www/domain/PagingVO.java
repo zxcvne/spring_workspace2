@@ -37,5 +37,11 @@ public class PagingVO {
 		return (this.pageNo-1) * this.qty;
 	}
 	
+	// type여러 타입을 검색하는 복합타입을 가각 검색으로 분할하기 위해 배열로 설정
+	// type="twc" ["t", "w", "c"]
+	public String[] getTypeToArray() {
+		return this.type == null ? new String[] {} : this.type.split("");
+	}
+	
 	
 }

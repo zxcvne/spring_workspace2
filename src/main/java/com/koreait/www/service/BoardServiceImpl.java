@@ -30,6 +30,8 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public BoardVO getDetail(long bno) {
+		// readCount 증가
+		// bdao.readCountUp(bno);
 		return bdao.getDetail(bno);
 	}
 
@@ -42,5 +44,16 @@ public class BoardServiceImpl implements BoardService{
 	public int remove(long bno) {
 		// TODO Auto-generated method stub
 		return bdao.remove(bno);
+	}
+
+	@Override
+	public int getTotalCount(PagingVO pgvo) {
+		// TODO Auto-generated method stub
+		return bdao.getTotalCount(pgvo);
+	}
+
+	public int readCountUp(long bno, int i) {
+		// TODO Auto-generated method stub
+		return bdao.readCountUp(bno, i);
 	}
 }

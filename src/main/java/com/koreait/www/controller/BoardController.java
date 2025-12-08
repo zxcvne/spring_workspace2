@@ -2,6 +2,8 @@ package com.koreait.www.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.koreait.www.domain.BoardVO;
 import com.koreait.www.domain.PagingVO;
+import com.koreait.www.handler.PagingHandler;
 import com.koreait.www.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -42,12 +45,21 @@ public class BoardController {
 	public String list(Model model, PagingVO pgvo) {
 		log.info(">>> pagingVO {}", pgvo);
 		List<BoardVO> list = bsv.getList(pgvo);
+		int totalCount = bsv.getTotalCount(pgvo);
+		PagingHandler ph = new PagingHandler(totalCount, pgvo);
 		model.addAttribute("list", list);
+		model.addAttribute("ph", ph);
 		return "/board/list";
 	}
 	
 	@GetMapping({"/detail", "/modify"})
-	public void detail(Model model, @RequestParam("bno") long bno) {
+	public void detail(Model model,
+			@RequestParam("bno") long bno, HttpServletRequest request) {
+		String path = request.getServletPath(); 
+		if(path.equals("/board/detail")) {
+			// readCountUp + 1
+			int isOk = bsv.readCountUp(bno, 1);
+		}		
 		BoardVO board = bsv.getDetail(bno);
 		model.addAttribute("board", board);
 	}
@@ -63,5 +75,6 @@ public class BoardController {
 		int isOk = bsv.remove(bno);
 		return "redirect:/board/list"; 
 	}
+	
 	
 }

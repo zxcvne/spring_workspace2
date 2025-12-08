@@ -37,5 +37,23 @@
 		<a href="/board/modify?bno=${board.bno}"><button type="button" class="btn btn-warning">modify</button></a>
 		<a href="/board/delete?bno=${board.bno}"><button type="button" class="btn btn-danger">delete</button></a>
 		
+		<!-- comment-->
+		<!-- post -->
+		<div class="input-group mb-3 my-3">
+		  <span class="input-group-text" id="cmtWriter">tester</span>
+		  <input type="text" class="form-control" id="cmtText" placeholder="Add Comment..." aria-label="Username" aria-describedby="basic-addon1">
+		  <button type="button" id="cmtAddBtn" class="btn btn-success">post</button>
+		</div>
+		<!-- print -->
+		<ul class="list-group list-group-flush" id="cmtListArea">
+		  <li class="list-group-item">
+		  	<div class="mb-3">
+		  		<div class="fw-bold">writer</div>
+		  		content
+		  	</div>
+		  	<span class="badge text-bg-primary">regDate</span>
+		  </li>
+		</ul>
+		
 	</div>
 <jsp:include page="../layout/footer.jsp"/>
