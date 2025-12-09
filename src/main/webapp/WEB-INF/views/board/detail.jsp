@@ -54,6 +54,37 @@
 		  	<span class="badge text-bg-primary">regDate</span>
 		  </li>
 		</ul>
+		<!-- 더보기 버튼 : 한 페이지에 5개식 댓글 표시 더 있으면 더보기 버튼 활성화 -->
+		<div class="mb-3">
+		<button type="button" id="moreBtn" data-page="1" style="visibility: hidden;" 
+			class="btn btn-outline-success">More + </button>
+		</div>
 		
+		<div class="modal fade" id="cmtModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+		       	<input type="text" class="form-control" id="cmtTextMod">
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-primary" id="cmtModBtn">Modify</button>
+		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		
+		<script type="text/javascript">
+		const bnoValue = `<c:out value="${board.bno}" />`; 
+		</script>
+		<script type="text/javascript" src="/resources/js/boardDetailComment.js"></script>
+		<script type="text/javascript">
+		spreadCommentList(bnoValue) 
+		</script>
 	</div>
 <jsp:include page="../layout/footer.jsp"/>

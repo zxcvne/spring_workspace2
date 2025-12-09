@@ -8,13 +8,13 @@
    	  <form class="d-flex" role="search" action="/board/list" method="get">
 		<select class="form-select" name="type" aria-label="Default select example">
 		  <option ${ph.pgvo.type eq null ? 'selected' : ''} >Choose...</option>
-		  <option ${ph.pgvo.type eq 't' ? 'selected' : ''}>title</option>
-		  <option ${ph.pgvo.type eq 'w' ? 'selected' : ''}>writer</option>
-		  <option ${ph.pgvo.type eq 'c' ? 'selected' : ''}>content</option>
-		  <option ${ph.pgvo.type eq 'tc' ? 'selected' : ''}>title&content</option>
-		  <option ${ph.pgvo.type eq 'wc' ? 'selected' : ''}>writer&content</option>
-		  <option ${ph.pgvo.type eq 'tw' ? 'selected' : ''}>title&writer</option>
-		  <option ${ph.pgvo.type eq 'twc' ? 'selected' : ''}>all</option>
+		  <option ${ph.pgvo.type eq 't' ? 'selected' : ''} value="t">title</option>
+		  <option ${ph.pgvo.type eq 'w' ? 'selected' : ''} value="w">writer</option>
+		  <option ${ph.pgvo.type eq 'c' ? 'selected' : ''} value="c">content</option>
+		  <option ${ph.pgvo.type eq 'tc' ? 'selected' : ''} value="tc">title&content</option>
+		  <option ${ph.pgvo.type eq 'wc' ? 'selected' : ''} value="wc">writer&content</option>
+		  <option ${ph.pgvo.type eq 'tw' ? 'selected' : ''} value="tw">title&writer</option>
+		  <option ${ph.pgvo.type eq 'twc' ? 'selected' : ''} value="twc">all</option>
 		</select>
         <input class="form-control me-2" type="search" name="keyword" value="${ph.pgvo.keyword}" placeholder="Search" aria-label="Search"/>
         <input type="hidden" name="pageNo" value="1">
@@ -42,7 +42,11 @@
   			<c:forEach items="${list}" var="b">
   				<tr>
   					<td>${b.bno}</td>
-  					<td><a href="/board/detail?bno=${b.bno}">${b.title}</a></td>
+  					<td><a href="/board/detail?bno=${b.bno}">${b.title} 
+  					<c:if test="${b.cmtQty ne 0}">
+  					<span class="badge text-bg-danger">${b.cmtQty}</span>
+  					</c:if>
+  					</a></td>
   					<td>${b.writer}</td>
   					<td>${b.regDate}</td>
   					<td>${b.readCount}</td>

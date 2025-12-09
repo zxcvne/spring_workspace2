@@ -1,5 +1,8 @@
 package com.koreait.www.handler;
 
+import java.util.List;
+
+import com.koreait.www.domain.CommentVO;
 import com.koreait.www.domain.PagingVO;
 
 import lombok.Getter;
@@ -20,6 +23,9 @@ public class PagingHandler {
 	private PagingVO pgvo; // 파라미터로 받기
 	
 	private int realEndPage; // 정말 마지막 페이지
+	
+	// 댓글 페이징을 위한 CommentList 값을 추가
+	private List<CommentVO> cmtList;
 	
 	// 생성자에서 모든 값을 계산
 	public PagingHandler(int totalCount, PagingVO pgvo) {
@@ -44,6 +50,8 @@ public class PagingHandler {
 		// 2005 / 10 => 200.5 (올림) => 201
 		this.realEndPage = (int)(Math.ceil(this.totalCount / (double)this.pgvo.getQty()));
 		
+		
+		
 		// 이전, 다음 여부
 		this.prev = this.startPage > 1; // 1 11 21 31
 		this.next = this.endPage < this.realEndPage;
@@ -55,4 +63,10 @@ public class PagingHandler {
 		}
 	}
 	
+	// 댓글 페이징을 위한 생성자
+	public PagingHandler(int totalcount, PagingVO pgvo, List<CommentVO> cmtList) {
+		// 생성자 호출
+		this(totalcount, pgvo);
+		this.cmtList = cmtList;
+	}
 }

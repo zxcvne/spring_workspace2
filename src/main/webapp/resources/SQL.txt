@@ -35,3 +35,20 @@ content text,
 reg_date datetime default now(),
 primary key(cno)
 );
+
+-- 25-12-09
+-- board 댓글 개수를 집계하는 칼럼을 추가
+alter table board add cmt_qty int default 0;
+-- 현재 들어간 댓글 갯수 집계
+UPDATE board b
+LEFT JOIN (
+    SELECT bno, COUNT(*) AS cnt
+    FROM comment
+    GROUP BY bno
+) c ON b.bno = c.bno
+SET b.cmt_qty = IFNULL(c.cnt, 0);
+
+-- update board b set cmt_qty = (
+-- 	select count(cno) from comment c
+-- 	where b.bno = c.bno
+-- );

@@ -11,7 +11,7 @@
   <select id="getList" resultType="com.koreait.www.domain.BoardVO">
     <!-- select * from board where is_del='N' order by bno desc 
     limit #{pageStart}, #{qty} -->
-    select a.bno, b.title, b.writer, b.reg_date, b.read_count
+    select a.bno, b.title, b.writer, b.reg_date, b.read_count, b.cmt_qty
     from (
     	select bno from board where is_del='N' 
     	<include refid="search"></include>
@@ -38,6 +38,10 @@
   	update board set read_count = read_count + #{i}
   		where bno = #{bno}
   </update>
+  <update id="cmtQtyUpdate">
+	update board set cmt_qty = cmt_qty + #{i}
+	where bno = #{bno}
+	</update>
   
   <!-- 
   select * from board where is_del='N' 

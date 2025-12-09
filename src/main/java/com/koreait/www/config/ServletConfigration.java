@@ -2,6 +2,7 @@ package com.koreait.www.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -15,13 +16,15 @@ import org.springframework.web.servlet.view.JstlView;
 		"com.koreait.www.handler"
 })
 @EnableWebMvc
+@EnableAspectJAutoProxy // 트랜젝션 매니저
 @Configuration
 public class ServletConfigration implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		// 외부 경로 설정
-		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+		registry.addResourceHandler("/resources/**")
+		.addResourceLocations("/resources/");
 	}
 
 	@Override

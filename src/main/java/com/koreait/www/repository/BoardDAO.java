@@ -23,4 +23,6 @@ public interface BoardDAO {
 
 	int readCountUp(@Param("bno") long bno, @Param("i") int i);
 
+	int cmtQtyUpdate(@Param("bno")long bno, @Param("i") int i);
+
 }
