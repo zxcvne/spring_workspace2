@@ -6,10 +6,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.koreait.www.domain.BoardFileDTO;
@@ -17,6 +20,7 @@ import com.koreait.www.domain.BoardVO;
 import com.koreait.www.domain.FileVO;
 import com.koreait.www.domain.PagingVO;
 import com.koreait.www.handler.FileHandler;
+import com.koreait.www.handler.FileRemoveHandler;
 import com.koreait.www.handler.PagingHandler;
 import com.koreait.www.service.BoardService;
 
@@ -84,8 +88,14 @@ public class BoardController {
 	}
 	
 	@PostMapping("/update")
-	public String update(BoardVO board) {
-		int isOk = bsv.update(board);
+	public String update(BoardVO board,
+			@RequestParam(value="files", required = false) MultipartFile[] files) {
+		List<FileVO> flist = null;
+		if(files[0].getSize() > 0) {
+			// 첨부파일이 있는 경우
+			flist = fh.uploadFile(files);
+		}
+		int isOk = bsv.update(new BoardFileDTO(board, flist));
 		return "redirect:/board/list";
 	}
 	
@@ -95,5 +105,18 @@ public class BoardController {
 		return "redirect:/board/list"; 
 	}
 	
+	@ResponseBody
+	@DeleteMapping("/file/{uuid}")
+	public String fileDelete(@PathVariable("uuid") String uuid) {
+		
+		// 폴더에 있는 파일도 삭제
+		FileRemoveHandler fr = new FileRemoveHandler();
+		FileVO fvo = bsv.getFile(uuid);
+		fr.removeFile(fvo);
+		
+		// uuid 보내서 DB의 파일 삭제
+		int isOk = bsv.removeFile(uuid);
+		return isOk > 0 ? "1" : "0";
+	}
 	
 }

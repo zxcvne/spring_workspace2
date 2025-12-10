@@ -10,4 +10,10 @@
   <select id="getList" resultType="com.koreait.www.domain.FileVO">
   	select * from file where bno=#{bno}
   </select>
+  <delete id="removeFile">
+  delete from file where uuid = #{uuid}
+  </delete>
+  <select id="getFile" resultType="com.koreait.www.domain.FileVO">
+  	select * from file where uuid= #{uuid}
+  </select>
   </mapper>

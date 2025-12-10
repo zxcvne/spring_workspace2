@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.koreait.www.domain.BoardFileDTO;
 import com.koreait.www.domain.BoardVO;
+import com.koreait.www.domain.FileVO;
 import com.koreait.www.domain.PagingVO;
 
 public interface BoardService {
@@ -14,7 +15,7 @@ public interface BoardService {
 
 	BoardFileDTO getDetail(long bno);
 
-	int update(BoardVO board);
+	int update(BoardFileDTO boardFileDTO);
 
 	int remove(long bno);
 
@@ -23,6 +24,10 @@ public interface BoardService {
 	int readCountUp(long bno, int i);
 
 	int insert(BoardFileDTO bfdto);
+
+	int removeFile(String uuid);
+
+	FileVO getFile(String uuid);
 
 
 

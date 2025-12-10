@@ -41,10 +41,7 @@ public class BoardServiceImpl implements BoardService{
 		return boardFileDTO;
 	}
 
-	@Override
-	public int update(BoardVO board) {
-		return bdao.update(board);
-	}
+
 
 	@Override
 	public int remove(long bno) {
@@ -86,4 +83,35 @@ public class BoardServiceImpl implements BoardService{
 		
 		return isOk;
 	}
+
+	@Override
+	public int removeFile(String uuid) {
+		// TODO Auto-generated method stub
+		return fdao.removeFile(uuid);
+	}
+
+	@Override
+	public FileVO getFile(String uuid) {
+		// TODO Auto-generated method stub
+		return fdao.getFile(uuid);
+	}
+
+	@Transactional
+	@Override
+	public int update(BoardFileDTO boardFileDTO) {
+		int isOk = bdao.update(boardFileDTO.getBoard());
+		if(boardFileDTO.getFlist() == null) {
+			// 파일이 없는 경우
+			return isOk;
+		}
+		if(isOk > 0) {
+			for(FileVO fvo : boardFileDTO.getFlist()) {
+				// bno 값은 없는 상태
+				fvo.setBno(boardFileDTO.getBoard().getBno());
+				isOk *= fdao.insertFile(fvo);
+			}
+		}
+		return isOk;
+	}
+	
 }

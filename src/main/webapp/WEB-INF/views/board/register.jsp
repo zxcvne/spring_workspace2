@@ -17,6 +17,7 @@
 	  <label for="c" class="form-label">Content</label>
 	  <textarea class="form-control" id="c" name="content" placeholder="content..." rows="3"></textarea>
 	</div>
+	<!-- 파일 업로드 라인 -->
 	<div class="mb-3">
 	  <label for="file" class="form-label"></label>
 	  <!-- multiple : 한번에 여러개의 파일 업로드 가능 -->
