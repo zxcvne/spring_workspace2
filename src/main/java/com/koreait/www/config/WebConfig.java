@@ -1,6 +1,7 @@
 package com.koreait.www.config;
 
 import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration.Dynamic;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -42,7 +43,19 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	@Override
 	protected void customizeRegistration(Dynamic registration) {
 		// 파일 업로드 경로설정, 익셉션 처리 설정
-	}
+		String uploadLocation = "D:\\web_0826_nhs\\_myProject\\_java\\_fileUpload";
+		// 업로드 할 파일의 최대 크기
+		int maxFileSize = 1024*1024*20; //20MB
+		// request 요청시 최대 크기
+		int maxReqSize = maxFileSize * 3;
+		// 파일업로드 시 메모리에 저장되는 임시파일의 크기
+		int fileSizeThreshold = maxReqSize;
+		
+		MultipartConfigElement multipartConfigElement = 
+				new MultipartConfigElement(uploadLocation, maxFileSize, maxReqSize, fileSizeThreshold);
+		registration.setMultipartConfig(multipartConfigElement);
+		
+	} 
 	
 
 	

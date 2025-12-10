@@ -1,8 +1,11 @@
 package com.koreait.www.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -25,6 +28,8 @@ public class ServletConfigration implements WebMvcConfigurer {
 		// 외부 경로 설정
 		registry.addResourceHandler("/resources/**")
 		.addResourceLocations("/resources/");
+		// 파일이랑 실제 연결되는 경로는 경로 뒤에 \\ 추가
+		registry.addResourceHandler("/upload/**").addResourceLocations("file:///D:\\web_0826_nhs\\_myProject\\_java\\_fileUpload\\");
 	}
 
 	@Override
@@ -38,5 +43,12 @@ public class ServletConfigration implements WebMvcConfigurer {
 	} 
 	
 	// 멀티파트 리졸버도 나중에 추가
+	// 빈 이름이 반드시 multipartResolver 이어야 함
+	@Bean(name = "multipartResolver")
+	public MultipartResolver getMuliMultipartResolver() {
+		StandardServletMultipartResolver multipartResolver = 
+				new StandardServletMultipartResolver();		
+		return multipartResolver;
+	}
 	
 }

@@ -52,3 +52,17 @@ SET b.cmt_qty = IFNULL(c.cnt, 0);
 -- 	select count(cno) from comment c
 -- 	where b.bno = c.bno
 -- );
+
+-- 25-12-10
+-- not null을 사용하면 데이터가 가지 않으면 에러가 발생함
+-- 데이터를 반드시 부여해줘야 함
+create table file(
+uuid varchar(256) not null,
+save_dir varchar(256) not null,
+file_name varchar(256) not null,
+file_type tinyint(1) default 0,
+bno bigint not null,
+file_size bigint,
+reg_date datetime default now(),
+primary key(uuid)
+);

@@ -3,10 +3,14 @@ package com.koreait.www.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.koreait.www.domain.BoardFileDTO;
 import com.koreait.www.domain.BoardVO;
+import com.koreait.www.domain.FileVO;
 import com.koreait.www.domain.PagingVO;
 import com.koreait.www.repository.BoardDAO;
+import com.koreait.www.repository.FileDAO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,12 +20,13 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class BoardServiceImpl implements BoardService{
 	private final BoardDAO bdao;
+	private final FileDAO fdao;
 
-	@Override
-	public int insert(BoardVO board) {
-		
-		return bdao.insert(board);
-	}
+//	@Override
+//	public int insert(BoardVO board) {
+//		
+//		return bdao.insert(board);
+//	}
 
 	@Override
 	public List<BoardVO> getList(PagingVO pgvo) {
@@ -29,10 +34,11 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public BoardVO getDetail(long bno) {
-		// readCount 증가
-		// bdao.readCountUp(bno);
-		return bdao.getDetail(bno);
+	public BoardFileDTO getDetail(long bno) {
+		BoardVO board = bdao.getDetail(bno);
+		List<FileVO> flist = fdao.getList(bno);
+		BoardFileDTO boardFileDTO = new BoardFileDTO(board, flist);
+		return boardFileDTO;
 	}
 
 	@Override
@@ -55,5 +61,29 @@ public class BoardServiceImpl implements BoardService{
 	public int readCountUp(long bno, int i) {
 		// TODO Auto-generated method stub
 		return bdao.readCountUp(bno, i);
+	}
+	
+	@Transactional
+	@Override
+	public int insert(BoardFileDTO bfdto) {
+		// board => insert => boardMapper
+		// file => insert => fileMapper
+		int isOk = bdao.insert(bfdto.getBoard()); // => DB에 insert가 되면 bno 생김
+		if(bfdto.getFlist() == null) { // 파일이 없는 경우
+			return isOk;
+		}
+		
+		// fileDAO 생성 => fileMapper 생성 => fileVO 값을 DB로 등록
+		// bno 가져오기
+		if(isOk > 0) {
+			long bno = bdao.getBno();
+			for(FileVO fvo : bfdto.getFlist()) {
+				fvo.setBno(bno);
+				// 저장
+				isOk *= fdao.insertFile(fvo);
+			}
+		}
+		
+		return isOk;
 	}
 }

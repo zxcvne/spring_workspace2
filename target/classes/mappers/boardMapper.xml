@@ -42,6 +42,10 @@
 	update board set cmt_qty = cmt_qty + #{i}
 	where bno = #{bno}
 	</update>
+	
+  <select id="getBno" resultType="long">
+  select max(bno) from board
+  </select>
   
   <!-- 
   select * from board where is_del='N' 

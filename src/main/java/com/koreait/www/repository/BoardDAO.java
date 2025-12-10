@@ -25,4 +25,6 @@ public interface BoardDAO {
 
 	int cmtQtyUpdate(@Param("bno")long bno, @Param("i") int i);
 
+	long getBno();
+
 }
