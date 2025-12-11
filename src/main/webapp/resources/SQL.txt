@@ -77,3 +77,23 @@ update board b set file_qty = (
   where b.bno = f.bno
 );
 
+-- user table 생성
+create table user(
+email varchar(256),
+pwd varchar(256) not null,
+nick_name varchar(200),
+reg_date datetime default now(),
+last_login datetime default now(),
+primary key(email));
+
+-- 권한 테이블 생성 
+-- 권한을 여러개 가지는 user가 있을 수 있으므로 권한 테이블 분리
+-- ADMIN + USER + MANAGER
+-- ROLE_ADMIN / ROLE_USER / ROLE_MANAGER
+
+create table auth(
+id bigint auto_increment,
+email varchar(256) not null,
+auth varchar(256) not null,
+primary key(id));
+
