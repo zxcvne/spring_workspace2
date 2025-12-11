@@ -7,7 +7,7 @@ document.getElementById("trigger").addEventListener("click", () => {
 // 파일 업로드 규칙
 // 1. 20MB 파일 사이즈 이상은 금지
 // 2. 실행 파일 금지 (exe, sh, msi, dll, bat, jar)
-const regExp = new RegExp(".(exe|sh|msi|dll|bat|jar)$");
+const regExp = new RegExp("\.(exe|sh|msi|dll|bat|jar)$");
 const maxSize = 1024 * 1024 * 20;
 
 function fileValidation(fileName, fileSize) {
@@ -15,6 +15,8 @@ function fileValidation(fileName, fileSize) {
     return 0;
   } else if (fileSize > maxSize) {
     return 0;
+  } else if(fileSize <= 0){
+  	return 0;
   } else {
     return 1;
   }

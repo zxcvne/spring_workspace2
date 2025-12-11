@@ -16,4 +16,7 @@
   <select id="getFile" resultType="com.koreait.www.domain.FileVO">
   	select * from file where uuid= #{uuid}
   </select>
+  <select id="getTodayFileList" resultType="com.koreait.www.domain.FileVO">
+  select * from file where save_dir = #{today}
+  </select>
   </mapper>

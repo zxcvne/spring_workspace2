@@ -66,3 +66,14 @@ file_size bigint,
 reg_date datetime default now(),
 primary key(uuid)
 );
+
+-- 25-12-11
+-- board 테이블에 파일의 개수를 집계하는 칼럼을 추가
+alter table board add file_qty int default 0;
+
+-- 현재 들어가 있는 파일의 개수를 집계
+update board b set file_qty = (
+  select count(uuid) from file f
+  where b.bno = f.bno
+);
+

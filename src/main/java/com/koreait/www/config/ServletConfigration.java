@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.view.JstlView;
 		"com.koreait.www.handler"
 })
 @EnableWebMvc
+@EnableScheduling
 @EnableAspectJAutoProxy // 트랜젝션 매니저
 @Configuration
 public class ServletConfigration implements WebMvcConfigurer {
@@ -29,7 +31,8 @@ public class ServletConfigration implements WebMvcConfigurer {
 		registry.addResourceHandler("/resources/**")
 		.addResourceLocations("/resources/");
 		// 파일이랑 실제 연결되는 경로는 경로 뒤에 \\ 추가
-		registry.addResourceHandler("/upload/**").addResourceLocations("file:///D:\\web_0826_nhs\\_myProject\\_java\\_fileUpload\\");
+		registry.addResourceHandler("/upload/**")
+		.addResourceLocations("file:///D:\\web_0826_nhs\\_myProject\\_java\\_fileUpload\\");
 	}
 
 	@Override

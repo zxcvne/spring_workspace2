@@ -21,5 +21,5 @@ public class BoardVO {
 	private String regDate;
 	private String readCount;
 	private int cmtQty;
-	
+	private int fileQty;
 }

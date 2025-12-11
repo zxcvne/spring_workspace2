@@ -14,4 +14,6 @@ public interface FileDAO {
 
 	FileVO getFile(String uuid);
 
+	List<FileVO> getTodayFileList(String today);
+
 }

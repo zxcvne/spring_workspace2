@@ -74,7 +74,6 @@ public class FileHandler {
 				Thumbnails.of(storeFile).size(100, 100).toFile(thumbNail);
 			}
 		   } catch (Exception e) {
-			// TODO: handle exception
 			log.info("file store error");
 			e.printStackTrace();
 		   }

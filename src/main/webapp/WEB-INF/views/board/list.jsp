@@ -42,9 +42,17 @@
   			<c:forEach items="${list}" var="b">
   				<tr>
   					<td>${b.bno}</td>
-  					<td><a href="/board/detail?bno=${b.bno}">${b.title} 
+  					<td><a href="/board/detail?bno=${b.bno}" style="text-decoration: none;">${b.title} 
+  					<c:if test="${b.fileQty ne 0}">
+  						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" class="bi bi-paperclip" viewBox="0 0 16 16">
+ 						<path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0z"/>
+						</svg>
+  					</c:if>
+  					<c:if test="${b.fileQty ne 0}">
+  						<span class="badge text-primary">[${b.fileQty}]</span>
+  					</c:if>
   					<c:if test="${b.cmtQty ne 0}">
-  					<span class="badge text-bg-danger">${b.cmtQty}</span>
+  						<span class="badge text-danger">[${b.cmtQty}]</span>
   					</c:if>
   					</a></td>
   					<td>${b.writer}</td>
