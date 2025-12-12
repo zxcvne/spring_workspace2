@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <jsp:include page="../layout/header.jsp" />
 	<div class="container-sm p-5">
 		<h3>Board Detail Page</h3>
@@ -72,16 +73,28 @@
 		</div>
 		
 		<a href="/board/list"><button type="button" class="btn btn-primary">list</button></a>
+		<sec:authorize access="isAuthenticated()">
+		<sec:authentication property="principal.userVO.nickName" var="authNick"/>
+		<c:if test="${board.writer eq authNick }">
 		<a href="/board/modify?bno=${board.bno}"><button type="button" class="btn btn-warning">modify</button></a>
 		<a href="/board/delete?bno=${board.bno}"><button type="button" class="btn btn-danger">delete</button></a>
+		</c:if>
+		</sec:authorize>
 		
 		<!-- comment-->
 		<!-- post -->
+		<sec:authorize access="isAuthenticated()">
+		<sec:authentication property="principal.userVO.nickName" var="authNick"/>
 		<div class="input-group mb-3 my-3">
-		  <span class="input-group-text" id="cmtWriter">tester</span>
+		  <span class="input-group-text" id="cmtWriter">${authNick}</span>
 		  <input type="text" class="form-control" id="cmtText" placeholder="Add Comment..." aria-label="Username" aria-describedby="basic-addon1">
 		  <button type="button" id="cmtAddBtn" class="btn btn-success">post</button>
 		</div>
+		</sec:authorize>
+<%-- 		<sec:authorize access="isAnonymous()">
+		<input type="hidden" id="cmtAddBtn"/>post		
+		</sec:authorize> --%>
+		
 		<!-- print -->
 		<ul class="list-group list-group-flush" id="cmtListArea">
 		  <li class="list-group-item">
@@ -119,6 +132,7 @@
 		
 		<script type="text/javascript">
 		const bnoValue = `<c:out value="${board.bno}" />`; 
+		const loginNick = `<c:out value="${authNick}" />`;
 		</script>
 		<script type="text/javascript" src="/resources/js/boardDetailComment.js"></script>
 		<script type="text/javascript">

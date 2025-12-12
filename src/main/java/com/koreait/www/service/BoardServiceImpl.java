@@ -78,6 +78,7 @@ public class BoardServiceImpl implements BoardService{
 				isOk *= fdao.insertFile(fvo);
 			}
 			isOk *= bdao.fileQtyUpdate(bno, bfdto.getFlist().size());
+			
 		}
 		return isOk;
 	}
@@ -104,6 +105,10 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int update(BoardFileDTO boardFileDTO) {
 		int isOk = bdao.update(boardFileDTO.getBoard());
+		
+		// 수정 후 detail로 가면 readCount +1 => alflrkath
+		isOk *= bdao.readCountUp(boardFileDTO.getBoard().getBno(), -1);
+		
 		if(boardFileDTO.getFlist() == null) {
 			// 파일이 없는 경우
 			return isOk;
@@ -115,6 +120,7 @@ public class BoardServiceImpl implements BoardService{
 				isOk *= fdao.insertFile(fvo);
 			}
 			isOk *= bdao.fileQtyUpdate(boardFileDTO.getBoard().getBno(), boardFileDTO.getFlist().size());
+			
 		}
 		return isOk;
 	}
