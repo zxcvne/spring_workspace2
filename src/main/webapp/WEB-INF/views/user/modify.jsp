@@ -1,0 +1,43 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+<jsp:include page="../layout/header.jsp" />
+<div class="container-sm p-5">
+	<h3>User modify Page</h3>
+	<!-- 이 페이지는 로그인이 되어있어야지만 접근 할 수 있는 페이지 -->
+	
+	<sec:authentication property="principal.userVO" var="user"/>
+	
+	<form action="/user/modify" method="post">
+		<!-- CSRF 토큰 추가 -->
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token }">
+	
+	<div class="card" style="width: 18rem;">
+	  <img src="/resources/image/dog.jpg" class="card-img-top" alt="...">
+	  <div class="card-body">
+		 <h5 class="card-title">
+		    <input type="hidden" class="form-control" name="email" value="${user.email}">	    
+		    <input type="text" class="form-control" name="nickName" value="${user.nickName}">
+		    <input type="password" class="form-control" name="pwd" placeholder="password..."">
+		</h5>
+		    <p class="card-text fw-bold">${user.email}</p>
+		    <p class="card-text">${user.regDate}</p>
+		    <p class="card-text"><small>Last login ${user.lastLogin} ago</small></p>
+		    
+		    <!-- 권한 -->
+		   <p>
+		       <c:forEach items="${user.authList}" var="auths">
+		       	<span class="badge text-bg-success">${auths.auth}</span>
+		       </c:forEach>
+		   </p>
+		    
+		    <button type="submit" class="btn btn-primary btn-sm">modify</button>
+			<a href="/user/remove"><button type="button" class="btn btn-danger btn-sm">delete</button></a>		    
+	  </div>
+	</div>
+	
+	</form>
+	
+</div>
+<jsp:include page="../layout/footer.jsp"/>

@@ -44,7 +44,7 @@
         <sec:authentication property="principal" var="pri"/>
           
         <li class="nav-item">
-          <a class="nav-link" href="">(${pri.username})</a>
+          <a class="nav-link" href="/user/modify">(${pri.username})</a>
         </li>
         <li class="nav-item">
         <form action="/user/logout" method="post" id="logoutForm">

@@ -79,7 +79,7 @@ public class SecurityCofing extends WebSecurityConfigurerAdapter{
 		// permitAll() : 누구나 접근 가능한 경로
 		http.authorizeRequests()
 			.antMatchers("/user/list").hasRole("ADMIN")
-			.antMatchers("/", "/user/login", "/user/register", "/user/insert",
+			.antMatchers("/", "/user/login", "/user/register", "/user/insert", 
 			"/board/list", "/board/detail", "/resources/**",
 			"/upload/**", "/comment/list/**/**").permitAll()
 			.anyRequest().authenticated();

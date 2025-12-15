@@ -61,4 +61,20 @@ public class UserController {
 		
 		return "redirect:/user/login";
 	}
+	
+	@GetMapping("/modify")
+	public String modify() {
+		// user의 객체를 DB에서 가져와서(email) modify.jsp로 전송
+		// principal 객체를 이용해도 됨.
+		
+		
+		return "/user/modify";
+	}
+	
+	@PostMapping("/modify")
+	public String modify(UserVO user) {
+		
+		return "";
+	}
+	
 }
