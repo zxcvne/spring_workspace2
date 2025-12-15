@@ -40,4 +40,11 @@
 	</form>
 	
 </div>
+<script type="text/javascript">
+	const modify_msg = `<c:out value ="${modify_msg}" />`
+	console.log(modify_msg);
+	if(modify_msg==='fail'){
+		alert("회원정보 수정실패!! 다시 시도해주세요.")
+	}
+</script>
 <jsp:include page="../layout/footer.jsp"/>

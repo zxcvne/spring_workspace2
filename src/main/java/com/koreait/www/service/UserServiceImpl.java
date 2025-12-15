@@ -1,5 +1,7 @@
 package com.koreait.www.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,5 +26,37 @@ public class UserServiceImpl implements UserService{
 			isOk *= udao.insertAuth(user.getEmail());
 		}
 		return isOk;
+	}
+
+	@Override
+	public int modifyPwdEmpty(UserVO user) {
+
+		return udao.modifyPwdEmpty(user);
+	}
+
+	@Override
+	public int modify(UserVO user) {
+		// TODO Auto-generated method stub
+		return udao.modify(user);
+	}
+
+	@Transactional
+	@Override
+	public int delete(String email) {
+		// 삭제시 권한도 같이 삭제		
+		int isOk = udao.authDelete(email);
+		isOk *= udao.delete(email);
+		return isOk;
+	}
+	
+	@Transactional
+	@Override
+	public List<UserVO> getList() {
+		// UserVO => authList => 두개의 값을 가져와야 함.
+		List<UserVO> userList = udao.getList();
+		for(UserVO u : userList) {
+			u.setAuthList(udao.getAuthList(u.getEmail()));
+		}
+		return userList;
 	}
 }
